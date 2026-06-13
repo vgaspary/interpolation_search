@@ -1,4 +1,5 @@
-use std::{str::Chars, time::SystemTime};
+use std::str::Chars;
+use std::time::SystemTime;
 
 /// Extends types with an `interpolation_factor` method to calculate the interpolation factor of a
 /// value between two given values.
@@ -15,7 +16,8 @@ use std::{str::Chars, time::SystemTime};
 ///
 /// ```
 /// use interpolation_search::InterpolationFactor;
-/// use std::time::{Duration, SystemTime};
+/// use std::time::Duration;
+/// use std::time::SystemTime;
 ///
 /// assert_eq!(5.interpolation_factor(&0, &10), 0.5);
 /// let t0 = SystemTime::now();

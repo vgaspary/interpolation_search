@@ -1,8 +1,8 @@
 use crate::InterpolationFactor;
-use std::cmp::{
-    Ord,
-    Ordering::{Equal, Greater, Less},
-};
+use std::cmp::Ord;
+use std::cmp::Ordering::Equal;
+use std::cmp::Ordering::Greater;
+use std::cmp::Ordering::Less;
 
 pub trait InterpolationSearch<T> {
     /// Interpolation searches this slice for a given element. If the slice is not sorted, the returned result is unspecified and meaningless.
@@ -106,7 +106,8 @@ fn normalize(f: f32) -> f32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::time::{Duration, SystemTime};
+    use std::time::Duration;
+    use std::time::SystemTime;
 
     #[derive(Debug, PartialEq, PartialOrd, Eq, Ord)]
     struct Item {
