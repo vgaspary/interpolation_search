@@ -24,7 +24,7 @@ pub trait InterpolationSearch<T> {
     /// ```
     fn interpolation_search(&self, target: &T) -> Result<usize, usize>
     where
-        T: Ord + InterpolationFactor;
+        T: InterpolationFactor;
 
     /// Interpolation searches this slice with a key extaction function. If the slice is not sorted by keys, the returned result is unspecified and meaningless.
     ///
@@ -46,21 +46,21 @@ pub trait InterpolationSearch<T> {
     /// ```
     fn interpolation_search_by_key<K, F>(&self, target: &K, f: F) -> Result<usize, usize>
     where
-        K: Ord + InterpolationFactor,
+        K: InterpolationFactor,
         F: FnMut(&T) -> &K;
 }
 
 impl<T> InterpolationSearch<T> for [T] {
     fn interpolation_search(&self, target: &T) -> Result<usize, usize>
     where
-        T: Ord + InterpolationFactor,
+        T: InterpolationFactor,
     {
         self.interpolation_search_by_key(target, |x| x)
     }
 
     fn interpolation_search_by_key<K, F>(&self, target: &K, mut key: F) -> Result<usize, usize>
     where
-        K: Ord + InterpolationFactor,
+        K: InterpolationFactor,
         F: FnMut(&T) -> &K,
     {
         let mut first_idx = 0;

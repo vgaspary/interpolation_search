@@ -1,4 +1,3 @@
-use std::str::Chars;
 use std::time::SystemTime;
 
 /// Extends types with an `interpolation_factor` method to calculate the interpolation factor of a
@@ -25,7 +24,7 @@ use std::time::SystemTime;
 /// let t2 = t0 + Duration::from_secs(10);
 /// assert_eq!(t1.interpolation_factor(&t0, &t2), 0.2);
 /// ```
-pub trait InterpolationFactor {
+pub trait InterpolationFactor: Ord {
     /// Returns the interpolation factor of `self` in the `[a, b]` linear range. `self` will be
     /// within the range if the slice provided to `interpolation_search` is sorted. This function
     /// must return a value in `[0.0, 1.0]` range.
@@ -78,30 +77,27 @@ impl InterpolationFactor for SystemTime {
     }
 }
 
-impl InterpolationFactor for Chars<'_> {
-    fn interpolation_factor(&self, a: &Self, b: &Self) -> f32 {
-        match self
-            .clone()
-            .zip(a.clone())
-            .zip(b.clone())
-            .map(|((mid, a), b)| (mid, a, b))
-            .find(|(_, a, b)| a != b)
-        {
-            Some((mid, a, b)) => mid.interpolation_factor(&a, &b),
-            None => 0.5,
-        }
-    }
-}
-
 impl InterpolationFactor for &str {
     fn interpolation_factor(&self, a: &Self, b: &Self) -> f32 {
-        self.chars().interpolation_factor(&a.chars(), &b.chars())
+        self.chars()
+            .zip(a.chars())
+            .zip(b.chars())
+            .map(|((mid, a), b)| (mid, a, b))
+            .find(|(_, a, b)| a != b)
+            .map(|(mid, a, b)| mid.interpolation_factor(&a, &b))
+            .unwrap_or(0.5)
     }
 }
 
 impl InterpolationFactor for String {
     fn interpolation_factor(&self, a: &Self, b: &Self) -> f32 {
-        self.chars().interpolation_factor(&a.chars(), &b.chars())
+        self.chars()
+            .zip(a.chars())
+            .zip(b.chars())
+            .map(|((mid, a), b)| (mid, a, b))
+            .find(|(_, a, b)| a != b)
+            .map(|(mid, a, b)| mid.interpolation_factor(&a, &b))
+            .unwrap_or(0.5)
     }
 }
 
