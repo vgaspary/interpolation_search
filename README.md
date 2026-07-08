@@ -14,13 +14,13 @@ This crate provides and implements the `InterpolationSearch` trait for slices (a
 
 2.  Import the trait and the implementation:
 
-    ```rust
+    ```
     use interpolation_search::InterpolationSearch;
     ```
 
 3.  Use the `interpolation_search` method on sorted arrays:
 
-    ```rust
+    ```
     let arr = [1, 2, 3, 4, 5];
     let target = 3;
 
